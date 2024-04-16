@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #F5F7FB;
+    height: 100vh;
+    color: #293264;
+    font-family: "Karla", sans-serif;
+}
+
+#root {
+    height: 100%;
+    width: 100%;        
+}
+
+/* App component*/
+
+main {
+    display: flex;
+    flex-direction: column;
+    
+    
+    height: 100%;
+    width: 100%;
+    
+    position: relative;
+}
+
+    .blue-blob-img {
+        position: absolute;
+        width: 30%;
+        height: 30%;
+        bottom: 0%;
+        z-index: -1;
+    }
+
+    #main-div {
+        display: flex;
+        flex-direction: column;
+        padding: 1em 5em;
+        height: 100%;
+        width: 100%;
+    }
+
+    .yellow-blob-img {
+        right: 0%;
+        position: absolute;
+        width: 40%;
+        height: 50%;
+        z-index: -1
+    }
+    
+/* Start component */
+
+.Start-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    inset: 20%;
+}
+
+    .start-div > h1 {
+        margin: 0;
+        font-weight: bold;
+    }
+    
+    .start-div > p {
+        margin: 0.5em;
+    }
+    
+    .start-div > button {
+        margin-top: 1em;
+        width: 100%;
+        background: #4D5B9E;
+        color: #F5F7FB;
+        border: none;
+        padding: 1em 2em;
+        border-radius: 15px;
+        font-family: "Karla", sans-serif;
+    }
+    
+
+/* TriviaSection component */
+
+.TriviaSection-div {
+    margin-bottom: 1em;
+    background: red;
+}
+
+    .question-title {
+        font-size: 20px;
+    }
+    
+    .choices-div {
+        display: flex;
+        width: 100%;
+    }
+    
+        .radio-input[type=radio] {
+            display: none;
+            height: 0;
+            width: 0;
+        }
+        
+        .radio-input:checked {
+            background: blue;
+        }
+        
+        .radio-label {
+            display: flex;
+            align-items: center;
+            border: 1px solid #293264;
+            border-radius: 7px;
+            padding: 0.25em 1.5em;
+            flex-basis: 20%;
+            margin-right: 1em;
+            user-select: none;
+        }
+        
+        .radio-input[type="radio"]:checked+label {
+            background: #D6DBF5;
+        }
+        
+/* Trivia */
+
+/* Why doesn't this work on TriviaSection-div? */
