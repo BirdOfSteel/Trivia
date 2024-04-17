@@ -1,19 +1,17 @@
 import React from "react"
 import Start from "./Start.jsx"
+import { nanoid } from "nanoid"
+import { decode } from 'html-entities'
 import TriviaSection from "./TriviaSection.jsx"
 import Trivia from "./Trivia.jsx"
-import { nanoid } from 'nanoid'
 import yellowBlob from './resources/yellow-blob.png'
 import blueBlob from './resources/blue-blob.png'
 
-// ADD NANOID
 
 // Refactor TriviaSection component to accept a prop of showAnswers. showAnswers should be false unless we're calling it from the submit button, in which case it's true. Make an if statement in TriviaSection.js that checks if showAnswers is true, and if it is, then return a block of code that returns the answers. 
 
 
 export default function App() {
-    const x = nanoid()
-    console.log(x)
     //this state contains the page to be rendered
     const [page, setPage] = React.useState(<Start callTrivia={callTrivia} />)
     //these states track the correct and selected answers. they're compared against each other later
@@ -23,29 +21,20 @@ export default function App() {
     // make submit function that checks if all items are selected by comparing the length of selectedAnswers to correctAnswersArray.
     function submitChoices(e) {
         e.preventDefault()
-        console.log("ran")
+        console.log(selectedAnswers.length)
+        console.log(correctAnswersArray.length)
     }
 
     function saveSelectedAnswer(e) {
-        if (e.target.className.includes('radio-boolean')) {
-            const value = e.target.innerHTML
-            const index = e.target.dataset.index
+        const value = decode(e.target.innerHTML)
+        const index = e.target.dataset.questionindex
 
-            setSelectedAnswers(prevAnswers => {
-                let array = [...prevAnswers]
-                array.splice(index, selectedAnswers[index] ? 1 : 0, value)
-                return array
-            })
+        setSelectedAnswers(prevAnswers => {
+            let array = [...prevAnswers]
+            array.splice(index,  1, value)
 
-        } else {
-            const value = e.target.innerHTML
-            const index = e.target.dataset.index
-            setSelectedAnswers(prevAnswers => {
-                let array = [...prevAnswers]
-                array.splice(index, selectedAnswers[index] ? 0 : 1, value)
-                return array
-            })
-        }
+            return array
+        })
     }
 
 
@@ -57,7 +46,12 @@ export default function App() {
                     const mappedResults = data.results.map((result, index) => {
                         // when .map iterates over a question, it adds the correct answer to correctAnswersArray
                         setCorrectAnswersArray(prevAnswers => {
-                            return [...prevAnswers, result.correct_answer]
+                            return [...prevAnswers, decode(result.correct_answer)]
+                        })
+                        // for every question, "null" is added to selectedAnswers array. They act as placeholders for selected choices to be put in.
+                        setSelectedAnswers(prevSelected => {
+                            console.log(prevSelected)
+                            return [...prevSelected, null]
                         })
 
                         let choiceArray = [...result.incorrect_answers, result.correct_answer]
@@ -65,8 +59,8 @@ export default function App() {
 
                         return (
                             <TriviaSection
-                                key={result.question}
-                                index={index}
+                                key={nanoid()}
+                                questionIndex={index}
                                 result={result}
                                 choices={shuffledChoices}
                                 saveSelectedAnswer={saveSelectedAnswer}
