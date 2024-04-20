@@ -2,74 +2,77 @@ import React from "react"
 import Start from "./Start.jsx"
 import { nanoid } from "nanoid"
 import { decode } from 'html-entities'
-import TriviaSection from "./TriviaSection.jsx"
-import Trivia from "./Trivia.jsx"
+import TriviaQuestions from "./TriviaQuestions.jsx"
+import TriviaAnswers from "./TriviaAnswers.jsx"
 import yellowBlob from './resources/yellow-blob.png'
 import blueBlob from './resources/blue-blob.png'
 
 
-// Refactor TriviaSection component to accept a prop of showAnswers. showAnswers should be false unless we're calling it from the submit button, in which case it's true. Make an if statement in TriviaSection.js that checks if showAnswers is true, and if it is, then return a block of code that returns the answers. 
-
+// Make a function in App.jsx that takes an object and creates a custom API link from it.
+// Start.jsx should call this function from an anonymous function and pass it an object that contains information from the inputs.
 
 export default function App() {
-    //this state contains the page to be rendered
-    const [page, setPage] = React.useState(<Start callTrivia={callTrivia} />)
-    //these states track the correct and selected answers. they're compared against each other later
-    const [correctAnswersArray, setCorrectAnswersArray] = React.useState([])
-    const [selectedAnswers, setSelectedAnswers] = React.useState([])
-
-    // make submit function that checks if all items are selected by comparing the length of selectedAnswers to correctAnswersArray.
-    function submitChoices(e) {
-        e.preventDefault()
-        console.log(selectedAnswers.length)
-        console.log(correctAnswersArray.length)
-    }
+    const [page, setPage] = React.useState('start')
+    const [selectedAnswers, setSelectedAnswers] = React.useState([]);
+    const [triviaStorage, setTriviaStorage] = React.useState()
 
     function saveSelectedAnswer(e) {
         const value = decode(e.target.innerHTML)
-        const index = e.target.dataset.questionindex
+        const index = e.target.dataset.triviaindex
 
         setSelectedAnswers(prevAnswers => {
             let array = [...prevAnswers]
             array.splice(index,  1, value)
 
-            return array
+            return [...array]
         })
     }
 
+    function initialiseTriviaStorage(data) {
+        const triviaData = data.results.map((result, index) => {
+            const choices = [result.correct_answer, ...result.incorrect_answers]    
+            const choicesDecoded = choices.map(choice => decode(choice))
+            
+            return (
+                {
+                    question: decode(result.question),
+                    choices: shuffleArray(choicesDecoded),
+                    correct_answer: decode(result.correct_answer),
+                    triviaIndex: index
+                }
+            )
+        })
+        setTriviaStorage(triviaData)
+    }
 
-    function callTrivia() {
-        fetch("https://opentdb.com/api.php?amount=5")
+    function showAnswers(e) {
+        e.preventDefault()
+        if (!selectedAnswers.includes(null)) {
+            setPage('answers')
+        }
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // Generate random index
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+        return array;
+    }
+    
+    function playAgain() {
+        setPage('start')
+    }
+
+    function callTrivia(x) {
+        fetch("https://opentdb.com/api.php?amount=5") // ./mockAPI.json
             .then(res => res.json())
             .then(data => {
+                console.log(x)
                 if (data.response_code == 0) {
-                    const mappedResults = data.results.map((result, index) => {
-                        // when .map iterates over a question, it adds the correct answer to correctAnswersArray
-                        setCorrectAnswersArray(prevAnswers => {
-                            return [...prevAnswers, decode(result.correct_answer)]
-                        })
-                        // for every question, "null" is added to selectedAnswers array. They act as placeholders for selected choices to be put in.
-                        setSelectedAnswers(prevSelected => {
-                            console.log(prevSelected)
-                            return [...prevSelected, null]
-                        })
-
-                        let choiceArray = [...result.incorrect_answers, result.correct_answer]
-                        const shuffledChoices = shuffleArray(choiceArray)
-
-                        return (
-                            <TriviaSection
-                                key={nanoid()}
-                                questionIndex={index}
-                                result={result}
-                                choices={shuffledChoices}
-                                saveSelectedAnswer={saveSelectedAnswer}
-                            />
-                        )
-                    })
-
-                    const newPage = <Trivia trivia={mappedResults} submitChoices={submitChoices} />
-                    setPage(newPage) // page state is set to array of questions and choices.
+                    setSelectedAnswers(Array(data.results.length).fill(null))
+                    initialiseTriviaStorage(data)
+                    setPage('questions')
                 }
                 else if (data.response_code == 1) {
                     console.log("No results")
@@ -89,28 +92,16 @@ export default function App() {
                 else {
                     console.log("Warning: else statement executed")
                 }
-            })
-    }
-
-    // Durstenfeld shuffle 
-    function shuffleArray(array) {
-        if (array.length == 4) {
-            for (var i = array.length - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var temp = array[i];
-                array[i] = array[j];
-                array[j] = temp;
-            }
-            return array
-        }
-        return array
+            }) .catch (console.log("Error in callTrivia"))
     }
 
     return (
         <main>
             <img src={yellowBlob} className="yellow-blob-img" />
             <div id="main-div">
-                {page}
+                {page === 'start' && <Start callTrivia={callTrivia}/>}
+                {page === 'questions' && <TriviaQuestions triviaData={triviaStorage} selectedAnswers={selectedAnswers} saveSelectedAnswer={saveSelectedAnswer} showAnswers={showAnswers}/>}
+                {page === 'answers' && <TriviaAnswers triviaData={triviaStorage} selectedAnswers={selectedAnswers} playAgain={playAgain}/>} 
             </div>
             <img src={blueBlob} className="blue-blob-img" />
         </main>

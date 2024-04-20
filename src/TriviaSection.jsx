@@ -1,25 +1,40 @@
 import React from 'react'
-import { decode } from 'html-entities';
+import { decode } from 'html-entities'
 import { nanoid } from 'nanoid'
 
 export default function TriviaSection(props) {
 
-    const choicesAsElements = props.choices.map((choice,index) => {
-        const randomId = nanoid()
+    function handleLabelClick(randomId) {
+        const inputElement = document.getElementById(randomId);
+        if (inputElement) {
+            inputElement.click(); // Manually trigger the click event on the associated input
+            props.saveSelectedAnswer(); // Trigger the function to save the selected answer
+        }
+    }
+
+    if(props.data) {
+        const choicesAsElements = props.data.choices.map((choice,index) => {
+            const randomId = nanoid()
+            
+            return (
+                <div key={nanoid()}>
+                    <input type="radio" className="radio-input" id={randomId} name={props.data.question}></input>
+                    <label className="radio-label" htmlFor={randomId} onClick={handleLabelClick} name={props.data.question} data-triviaindex={props.data.triviaIndex}>{decode(props.data.choices[index])}</label>
+                </div>
+            )
+        })
+    
         return (
-            <div key={randomId}>
-                <input type="radio" className="radio-input" id={randomId} name={props.result.question}></input>
-                <label className="radio-label" htmlFor={randomId} onClick={props.saveSelectedAnswer} name={props.result.question} data-questionIndex={props.questionIndex}>{decode(props.choices[index])}</label>
+            <div className="TriviaSection-div">
+                <h1 className="question-title">{decode(props.data.question)}</h1>
+                <div className="choices-div">
+                    {choicesAsElements}
+                </div>
             </div>
         )
-    })
+    } else {
+        return <p>Loading...</p>
+    }
 
-    return (
-        <div className="TriviaSection-div">
-            <h1 className="question-title">{decode(props.result.question)}</h1>
-            <div className="choices-div">
-                {choicesAsElements}
-            </div>
-        </div>
-    )
+
 }

@@ -1,0 +1,56 @@
+{
+    "response_code": 0,
+    "results": [
+        {
+            "category": "Animals",
+            "type": "boolean",
+            "difficulty": "easy",
+            "question": "The Killer Whale is considered a type of dolphin.",
+            "correct_answer": "True",
+            "incorrect_answers": [
+                "False"
+            ]
+        },
+        {
+            "category": "Animals",
+            "type": "boolean",
+            "difficulty": "easy",
+            "question": "The Killer Whale is considered a type of dolphin.",
+            "correct_answer": "True",
+            "incorrect_answers": [
+                "False"
+            ]
+        },
+        {
+            "category": "Animals",
+            "type": "boolean",
+            "difficulty": "easy",
+            "question": "The Killer Whale is considered a type of dolphin.",
+            "correct_answer": "True",
+            "incorrect_answers": [
+                "False"
+            ]
+        },
+        {
+            "category": "Animals",
+            "type": "boolean",
+            "difficulty": "easy",
+            "question": "The Killer Whale is considered a type of dolphin.",
+            "correct_answer": "True",
+            "incorrect_answers": [
+                "False"
+            ]
+        },
+        {
+            "category": "Animals",
+            "type": "boolean",
+            "difficulty": "easy",
+            "question": "The Killer Whale is considered a type of dolphin.",
+            "correct_answer": "True",
+            "incorrect_answers": [
+                "False"
+            ]
+        }
+        
+    ]
+}

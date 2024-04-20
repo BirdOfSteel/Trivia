@@ -20,11 +20,8 @@ body {
 main {
     display: flex;
     flex-direction: column;
-    
-    
     height: 100%;
     width: 100%;
-    
     position: relative;
 }
 
@@ -61,34 +58,38 @@ main {
     align-items: center;
     position: absolute;
     inset: 20%;
+    font-size: 1.5rem;
 }
 
-    .start-div > h1 {
+    .Start-div > h1 {
         margin: 0;
         font-weight: bold;
     }
     
-    .start-div > p {
-        margin: 0.5em;
+    .Start-div > p {
+        margin: 1;
     }
-    
-    .start-div > button {
-        margin-top: 1em;
-        width: 100%;
-        background: #4D5B9E;
-        color: #F5F7FB;
-        border: none;
-        padding: 1em 2em;
-        border-radius: 15px;
+
+    .Start-quiz-btn {
+        font-weight: bolder;
         font-family: "Karla", sans-serif;
+        padding: 0.75em 2em;
+        font-size: inherit;
+        color: #F5F7FB;
+        background: #4D5B9E;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .Start-quiz-btn:active {
+        background: #293264;
     }
     
 
 /* TriviaSection component */
 
 .TriviaSection-div {
-    margin-bottom: 1em;
-    /* background: red; */
+    margin: 2.5em 0;
 }
 
     .question-title {
@@ -106,23 +107,59 @@ main {
             width: 0;
         }
         
-        .radio-input:checked {
-            background: blue;
-        }
-        
         .radio-label {
             display: flex;
             align-items: center;
-            border: 1px solid #293264;
+            border: 1px solid #4D5B9E;
             border-radius: 7px;
             padding: 0.25em 1.5em;
-            margin-right: 1em;
+            margin: 0 1em 0 0;
             user-select: none;
         }
         
         .radio-input[type="radio"]:checked+label {
-            background: #D6DBF5;
+            background: red;
         }
         
-/* Trivia */
 
+/* TriviaQuestions */
+
+.check-answers-btn {
+    font-weight: bolder;
+    padding: 1em 3em;
+    color: #F5F7FB;
+    background: #4D5B9E;
+    border: none;
+    border-radius: 10px;
+}
+
+.check-answers-btn:active {
+    background: #293264;
+}
+
+/* TriviaAnswers */
+
+.TriviaAnswers--lower_div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .score-text {
+        font-weight: bold;
+        font-size: 1.25rem;
+        margin-right: 1em;
+    }
+
+    .new-game-btn {
+        font-weight: bolder;
+        padding: 1em 3em;
+        color: #F5F7FB;
+        background: #4D5B9E;
+        border: none;
+        border-radius: 10px;
+    }
+
+    .new-game-btn:active {
+        background: #293264;
+    }
