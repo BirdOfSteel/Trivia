@@ -49,8 +49,6 @@ export default function TriviaAnswers(props) {
 
             }
 
-            console.log(triviaObject.correct_answer)
-
             const randomId = nanoid()
 
             return (

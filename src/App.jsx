@@ -16,6 +16,90 @@ export default function App() {
     const [selectedAnswers, setSelectedAnswers] = React.useState([]);
     const [triviaStorage, setTriviaStorage] = React.useState()
 
+    function convertURLObjectToURL(urlObject) {
+        let URLString = "https://opentdb.com/api.php"
+        URLString += `?amount=${urlObject.quantity}`
+
+        let categoryString  = ''
+
+        switch (urlObject.category) {
+            case 'Art': categoryString = '&category=25';
+            break;
+            case 'Animals': categoryString = '&category=27';
+            break;
+            case 'Celebrities': categoryString = '&category=26';
+            break;
+            case 'Entertainment: Books': categoryString = '&category=10';
+            break;
+            case 'Entertainment: Board Games': categoryString = '&category=16';
+            break;
+            case 'Entertainment: Cartoon & Animations': categoryString = '&category=32';
+            break;
+            case 'Entertainment: Comics': categoryString = '&category=29';
+            break;
+            case 'Entertainment: Film': categoryString = '&category=11';
+            break;
+            case 'Entertainment: Japanese Anime & Manga': categoryString = '&category=31'
+            break;
+            case 'Entertainment: Music': categoryString = '&category=12';
+            break;
+            case 'Entertainment: Musicals & Theatres': categoryString = '&category=13';
+            break;
+            case 'Entertainment: Television': categoryString = '&category=14';
+            break;
+            case 'Entertainment: Video Games': categoryString = '&category=15';
+            break;
+            case 'General Knowledge': categoryString = '&category=9';
+            break;
+            case 'Geography': categoryString = '&category=22';
+            break;
+            case 'History': categoryString = '&category=23';
+            break;
+            case 'Mythology': categoryString = '&category=20';
+            break;
+            case 'Politics': categoryString = '&category=24';
+            break;
+            case 'Science & Nature': categoryString = '&category=17';
+            break;
+            case 'Science: Computers': categoryString = '&category=18';
+            break;
+            case 'Scicence: Gadgets': categoryString = '&category=30';
+            break;
+            case 'Science: Mathematics': categoryString = '&category=19';
+            break;
+            case 'Sports': categoryString = '&category=21';
+            break;
+            case 'Vehicles': categoryString = '&category=28';
+            break;
+        }
+        URLString += categoryString
+
+        let difficultyString = ''
+
+        switch (urlObject.difficulty) {
+            case 'Easy': difficultyString = '&difficulty=easy';
+            break;
+            case 'Medium': difficultyString = '&difficulty=medium';
+            break;
+            case 'Hard': difficultyString = '&difficulty=hard';
+            break;
+        }
+        URLString += difficultyString
+        
+
+        let typeString = ''
+        switch (urlObject.type) {
+            case 'Multiple Choice': typeString = '&type=multiple';
+            break;
+            case 'True / False': typeString = '&type=boolean'
+            break;
+        }
+        URLString += typeString
+
+        console.log(URLString)
+        return URLString
+    }
+
     function saveSelectedAnswer(e) {
         const value = decode(e.target.innerHTML)
         const index = e.target.dataset.triviaindex
@@ -64,11 +148,10 @@ export default function App() {
         setPage('start')
     }
 
-    function callTrivia(x) {
-        fetch("https://opentdb.com/api.php?amount=5") // ./mockAPI.json
+    function callTrivia(urlObject) {
+        fetch(convertURLObjectToURL(urlObject)) // ./mockAPI.json
             .then(res => res.json())
             .then(data => {
-                console.log(x)
                 if (data.response_code == 0) {
                     setSelectedAnswers(Array(data.results.length).fill(null))
                     initialiseTriviaStorage(data)

@@ -37,7 +37,7 @@ export default function Start(props) {
                 <option value="Entertainment: Board Games">Entertainment: Board Games</option>
                 <option value="Entertainment: Cartoon & Animations">Entertainment: Cartoon & Animations</option>
                 <option value="Entertainment: Comics">Entertainment: Comics</option>
-                <option value="Entertainment: Films">Entertainment: Films</option>
+                <option value="Entertainment: Film">Entertainment: Film</option>
                 <option value="Entertainment: Japanese Anime & Manga">Entertainment: Japanese Anime & Manga</option>
                 <option value="Entertainment: Music">Entertainment: Music</option>
                 <option value="Entertainment: Musicals & Theatres">Entertainment: Musicals & Theatres</option>
