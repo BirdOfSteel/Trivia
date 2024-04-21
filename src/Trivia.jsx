@@ -94,9 +94,7 @@ export default function Trivia(props) {
         );
     });
 
-    function submitChoices(e) {
-        e.preventDefault();
-
+    function submitChoices() {
         const mappedAnswers = props.triviaData.results.map((result, index) => {
             return (
                 <TriviaSection 
