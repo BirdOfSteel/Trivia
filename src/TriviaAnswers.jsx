@@ -2,9 +2,7 @@ import React from 'react'
 import { nanoid } from 'nanoid'
 
 export default function TriviaAnswers(props) {
-
-    //write function that checks for number of correct answers
-
+    
     function findNumberOfCorrectAnswers() {
         let score = 0;
 

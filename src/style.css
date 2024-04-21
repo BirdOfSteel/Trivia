@@ -136,15 +136,22 @@ main {
             user-select: none;
         }
         
-        .radio-input[type="radio"]:checked+label {
-            background: red;
-        }
-        
-
 /* TriviaQuestions */
+.TriviaQuestions--lower_div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.unanswered-questions-text {
+    margin: 0 1em;
+    font-weight: bolder;
+    color: #FF6961;
+}
 
 .check-answers-btn {
     font-weight: bolder;
+    font-family: "Karla", sans-serif;
     padding: 1em 3em;
     color: #F5F7FB;
     background: #4D5B9E;
@@ -177,6 +184,7 @@ main {
         background: #4D5B9E;
         border: none;
         border-radius: 10px;
+        font-family: "Karla", sans-serif;
     }
 
     .new-game-btn:active {

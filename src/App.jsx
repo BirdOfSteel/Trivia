@@ -96,7 +96,6 @@ export default function App() {
         }
         URLString += typeString
 
-        console.log(URLString)
         return URLString
     }
 
@@ -129,11 +128,8 @@ export default function App() {
         setTriviaStorage(triviaData)
     }
 
-    function showAnswers(e) {
-        e.preventDefault()
-        if (!selectedAnswers.includes(null)) {
-            setPage('answers')
-        }
+    function showAnswers() {
+        setPage('answers')
     }
 
     function shuffleArray(array) {
