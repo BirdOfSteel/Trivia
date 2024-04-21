@@ -9,7 +9,6 @@ export default function TriviaAnswers(props) {
         let score = 0;
 
         props.selectedAnswers.map((selectedAnswer,index) => {
-            console.log(props.triviaData[index].correct_answer)
             if (selectedAnswer == props.triviaData[index].correct_answer) {
                 score = score + 1
             }

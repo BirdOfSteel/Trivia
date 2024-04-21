@@ -13,9 +13,8 @@ export default function TriviaQuestions(props) {
         const choiceElements = triviaObject.choices.map((choice,choiceIndex) => {
 
             const randomId = nanoid()
-            console.log(questionIndex + " " + choiceIndex)
-            let style = {}
             
+            let style = {}
 
             if (props.selectedAnswers[questionIndex] == choice) {
                 style = {
