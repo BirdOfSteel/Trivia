@@ -63,6 +63,7 @@ export default function TriviaAnswers(props) {
             <div className="TriviaSection--choices_div">
                 {choiceElements}
             </div>
+            <hr style={{marginTop: "2em", borderTop: "1px", borderColor: "#DBDEF0"}}></hr>
         </div>
         )
     })
