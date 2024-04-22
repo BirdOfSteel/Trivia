@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 
 export default function TriviaAnswers(props) {
     
+    // checks how many selected answers are correct
     function findNumberOfCorrectAnswers() {
         let score = 0;
 
@@ -15,8 +16,10 @@ export default function TriviaAnswers(props) {
         return score
     }
 
+    // maps over the triviaData to create questions a map of questions and choices.
     const questionElements = props.triviaData.map((triviaObject,questionIndex) => {
 
+        //maps over array of choices for each question to produce an array of choices in JSX 
         const choiceElements = triviaObject.choices.map((choice,choiceIndex) => {
 
             let styles = {
@@ -39,8 +42,7 @@ export default function TriviaAnswers(props) {
                 else if (props.selectedAnswers[triviaObject.triviaIndex] == choice) {
                     styles = {
                         background: "#F8BCBC",
-                        border: "1px solid #F8BCBC",
-                        opacity: "50%"
+                        border: "1px solid #F8BCBC"
                     }
                     // checks if the selected answer is equal to the current iterant
                 }
@@ -48,28 +50,30 @@ export default function TriviaAnswers(props) {
             }
 
             const randomId = nanoid()
-
+            //returns choice
             return (
-                <p key={nanoid()} style={styles}className="radio-label">{triviaObject.choices[choiceIndex]}</p>
+                <p key={nanoid()} style={styles}className="TriviaSection--radio_label">{triviaObject.choices[choiceIndex]}</p>
             )
         })    
 
+        // returns a question with its choices as JSX
         return (
-        <div className="TriviaSection-div" key={nanoid()}>
-            <h1 className="question-title">{triviaObject.question}</h1>
-            <div className="choices-div">
+        <div className="TriviaSection--div" key={nanoid()}>
+            <h1 className="TriviaSection--question_title">{triviaObject.question}</h1>
+            <div className="TriviaSection--choices_div">
                 {choiceElements}
             </div>
         </div>
         )
     })
 
+    // returns page to render
     return (
         <div>
             {questionElements}
             <div className="TriviaAnswers--lower_div">
-                <p className="score-text">{"You scored " + findNumberOfCorrectAnswers() + "/" + props.triviaData.length + " correct answers"}</p>
-                <button className="new-game-btn" type="submit" onClick={props.playAgain}>Play again</button>
+                <p className="TriviaAnswers--score_text">{"You scored " + findNumberOfCorrectAnswers() + "/" + props.triviaData.length + " correct answers"}</p>
+                <button className="TriviaAnswers--new_game_btn" type="submit" onClick={props.playAgain}>Play again</button>
             </div>
         </div>
     );

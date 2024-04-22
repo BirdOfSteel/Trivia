@@ -1,21 +1,71 @@
 import React from "react"
 import Start from "./Start.jsx"
-import { nanoid } from "nanoid"
 import { decode } from 'html-entities'
 import TriviaQuestions from "./TriviaQuestions.jsx"
 import TriviaAnswers from "./TriviaAnswers.jsx"
 import yellowBlob from './resources/yellow-blob.png'
 import blueBlob from './resources/blue-blob.png'
 
-
-// Make a function in App.jsx that takes an object and creates a custom API link from it.
-// Start.jsx should call this function from an anonymous function and pass it an object that contains information from the inputs.
-
 export default function App() {
+    // page state helps control what content is displayed
     const [page, setPage] = React.useState('start')
+    // selectedAnswers state will hold the answers that have been clicked
     const [selectedAnswers, setSelectedAnswers] = React.useState([]);
+    // triviaStorage will hold data from the trivia API call
     const [triviaStorage, setTriviaStorage] = React.useState()
+    
+    // sets page to start page, allowing start page to display
+    function playAgain() {
+        setPage('start')
+    }
 
+    // sets page to answers, allowing answers to display
+    function showAnswers() {
+        setPage('answers')
+    }
+    
+    // when a choice is clicked, it's stored into selectedAnswers
+    function saveSelectedAnswer(e) {
+        const value = decode(e.target.innerHTML)
+        const index = e.target.dataset.triviaindex
+    
+        setSelectedAnswers(prevAnswers => {
+            let array = [...prevAnswers]
+            array.splice(index,  1, value)
+    
+            return [...array]
+        })
+    }
+    
+    // shuffle function for arrays. used for shuffling choices to questions.    
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // Generate random index
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        }
+        return array;
+    }
+    
+    // turns data received from API call into objects containing all the data we need.
+    function initialiseTriviaStorage(data) {
+        const triviaData = data.results.map((result, index) => {
+            const choices = [result.correct_answer, ...result.incorrect_answers]    
+            const choicesDecoded = choices.map(choice => decode(choice))
+            
+            return (
+                {
+                    question: decode(result.question),
+                    choices: shuffleArray(choicesDecoded),
+                    correct_answer: decode(result.correct_answer),
+                    triviaIndex: index
+                }
+            )
+        })
+        setTriviaStorage(triviaData)
+    }
+    
+    // takes the data from input fields in Start.jsx (received as an object)
+    // and converts it into query string 
     function convertURLObjectToURL(urlObject) {
         let URLString = "https://opentdb.com/api.php"
         URLString += `?amount=${urlObject.quantity}`
@@ -99,51 +149,7 @@ export default function App() {
         return URLString
     }
 
-    function saveSelectedAnswer(e) {
-        const value = decode(e.target.innerHTML)
-        const index = e.target.dataset.triviaindex
-
-        setSelectedAnswers(prevAnswers => {
-            let array = [...prevAnswers]
-            array.splice(index,  1, value)
-
-            return [...array]
-        })
-    }
-
-    function initialiseTriviaStorage(data) {
-        const triviaData = data.results.map((result, index) => {
-            const choices = [result.correct_answer, ...result.incorrect_answers]    
-            const choicesDecoded = choices.map(choice => decode(choice))
-            
-            return (
-                {
-                    question: decode(result.question),
-                    choices: shuffleArray(choicesDecoded),
-                    correct_answer: decode(result.correct_answer),
-                    triviaIndex: index
-                }
-            )
-        })
-        setTriviaStorage(triviaData)
-    }
-
-    function showAnswers() {
-        setPage('answers')
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1)); // Generate random index
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-        }
-        return array;
-    }
-    
-    function playAgain() {
-        setPage('start')
-    }
-
+    // function for calling API
     function callTrivia(urlObject) {
         fetch(convertURLObjectToURL(urlObject)) // ./mockAPI.json
             .then(res => res.json())

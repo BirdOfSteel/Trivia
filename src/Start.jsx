@@ -2,9 +2,14 @@ import React from "react"
 
 export default function Start(props) {
     const [questionQty, setQuestionQty] = React.useState(5)
+    
+    // handleQuantityChange is equal to the value of the question quantity input.
+    // it sets the state to the given number, then the input value reflects the state.
+    const handleQuantityChange = (event) => {
+        setQuestionQty(event.target.value);
+    };
 
-    // Make a function that takes the inputs and makes an object from it. Then pass the object to callTrivia. 
-
+    // turns inputs into an object to pass App.jsx
     function prepareURLDataObject() {
         const urlDataObject = {
             quantity: document.getElementById("question-quantity").value,
@@ -15,15 +20,12 @@ export default function Start(props) {
         props.callTrivia(urlDataObject)
     }
 
-    const handleQuantityChange = (event) => {
-        setQuestionQty(event.target.value);
-    };
 
     return (
-    <div className="Start-div">
+    <div className="Start--div">
         <h1>Quizzical</h1>
         <p>Lorem Ipsum Dolor</p>
-        <form className="url-form">
+        <form className="Start--url_form">
             <label htmlFor="question-quantity">Numbers of Questions:</label>
             <input id="question-quantity" type="number" min="1" max="50" value={questionQty} onChange={handleQuantityChange}></input>
 
@@ -71,7 +73,7 @@ export default function Start(props) {
                 <option value="True / False">True / False</option>
             </select>
             
-            <button type="button" className="Start-quiz-btn" onClick={prepareURLDataObject}>Start quiz</button>
+            <button type="button" className="Start--quiz_btn" onClick={prepareURLDataObject}>Start quiz</button>
         </form>
     </div>)
 }
