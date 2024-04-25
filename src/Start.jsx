@@ -73,6 +73,7 @@ export default function Start(props) {
                 <option value="True / False">True / False</option>
             </select>
             
+            {/* if there's an error message, it's displayed*/}
             {props.errorMessage && <p className="Start--error_message">{props.errorMessage}</p>}
 
             <button type="button" className="Start--quiz_btn" onClick={prepareURLDataObject}>Start quiz</button>
