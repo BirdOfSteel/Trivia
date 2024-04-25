@@ -13,7 +13,10 @@ export default function App() {
     const [selectedAnswers, setSelectedAnswers] = React.useState([]);
     // triviaStorage will hold data from the trivia API call
     const [triviaStorage, setTriviaStorage] = React.useState()
-    
+    // used to store error message
+    const [APIErrorMessage, setAPIErrorMessage] = React.useState()
+
+
     // sets page to start page, allowing start page to display
     function playAgain() {
         setPage('start')
@@ -160,22 +163,22 @@ export default function App() {
                     setPage('questions')
                 }
                 else if (data.response_code == 1) {
-                    console.log("No results")
+                    setAPIErrorMessage("No results")
                 }
                 else if (data.response_code == 2) {
-                    console.log("One or more parameters are invalid")
+                    setAPIErrorMessage("One or more parameters are invalid")
                 }
                 else if (data.response_code == 3) {
-                    console.log("Token not found: Session token does not exist.")
+                    setAPIErrorMessage("Token not found: Session token does not exist.")
                 }
                 else if (data.response_code == 4) {
-                    console.log("All possible queries have been returned. Reset token.")
+                    setAPIErrorMessage("All possible queries have been returned. Reset token.")
                 }
                 else if (data.response_code == 5) {
-                    console.log("Too many requests")
+                    setAPIErrorMessage("Too many requests")
                 }
                 else {
-                    console.log("Warning: else statement executed")
+                    setAPIErrorMessage("Unknown error - else statement executed in callTrivia")
                 }
             }) .catch (console.log("Error in callTrivia"))
     }
@@ -184,7 +187,7 @@ export default function App() {
         <main>
             <img src={yellowBlob} className="yellow-blob-img" />
             <div id="main-div">
-                {page === 'start' && <Start callTrivia={callTrivia}/>}
+                {page === 'start' && <Start callTrivia={callTrivia} errorMessage={APIErrorMessage}/>}
                 {page === 'questions' && <TriviaQuestions triviaData={triviaStorage} selectedAnswers={selectedAnswers} saveSelectedAnswer={saveSelectedAnswer} showAnswers={showAnswers}/>}
                 {page === 'answers' && <TriviaAnswers triviaData={triviaStorage} selectedAnswers={selectedAnswers} playAgain={playAgain}/>} 
             </div>

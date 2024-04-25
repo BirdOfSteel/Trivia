@@ -62,12 +62,15 @@ main {
 }
 
     .Start--div > h1 {
-        margin: 0;
+        margin: 0 0 1em 0;
         font-weight: bold;
     }
     
     .Start--div > p {
-        margin: 1;
+        margin: 0 0 2em 0;
+        width: 50%;
+        min-width: 450px;
+        text-align: center;
     }
 
     .Start--url_form {
@@ -103,6 +106,12 @@ main {
 
     .Start--quiz_btn:active {
         background: #293264;
+    }
+
+    .Start--error_message {
+        color: red;
+        margin: 0.5em 0;
+        font-size: 1.15rem;
     }
     
     

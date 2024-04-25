@@ -9,6 +9,10 @@ export default function Start(props) {
         setQuestionQty(event.target.value);
     };
 
+    if (props.errorMessage) { 
+        console.log(props.errorMessage)
+    }
+
     // turns inputs into an object to pass App.jsx
     function prepareURLDataObject() {
         const urlDataObject = {
@@ -23,8 +27,8 @@ export default function Start(props) {
 
     return (
     <div className="Start--div">
-        <h1>Quizzical</h1>
-        <p>Lorem Ipsum Dolor</p>
+        <h1>Trivia API</h1>
+        <p>Select from the options below to customise your game, or play with default settings</p>
         <form className="Start--url_form">
             <label htmlFor="question-quantity">Numbers of Questions:</label>
             <input id="question-quantity" type="number" min="1" max="50" value={questionQty} onChange={handleQuantityChange}></input>
@@ -73,6 +77,8 @@ export default function Start(props) {
                 <option value="True / False">True / False</option>
             </select>
             
+            {props.errorMessage && <p className="Start--error_message">{props.errorMessage}</p>}
+
             <button type="button" className="Start--quiz_btn" onClick={prepareURLDataObject}>Start quiz</button>
         </form>
     </div>)
