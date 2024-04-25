@@ -9,10 +9,6 @@ export default function Start(props) {
         setQuestionQty(event.target.value);
     };
 
-    if (props.errorMessage) { 
-        console.log(props.errorMessage)
-    }
-
     // turns inputs into an object to pass App.jsx
     function prepareURLDataObject() {
         const urlDataObject = {
